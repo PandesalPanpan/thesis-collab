@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Moderator\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Moderator\Resources\UserResource\Pages;
+use App\Filament\Moderator\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,21 +23,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                ->required(),
-                TextInput::make('email')
-                ->required(),
-                Select::make('role_id')
-                ->label('Role')
-                ->options([
-                    '1' => 'Student',
-                    '2' => 'Professor',
-                    '3' => 'Visitor',
-                    '4' => 'Moderator',
-                    '5' => 'Admin'
-                ])
-                ->required(),
-
+                //
             ]);
     }
 
@@ -49,7 +33,6 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('role.name'),
             ])
             ->filters([
                 //
