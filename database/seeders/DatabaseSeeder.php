@@ -12,21 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $testing_users = ['student','professor','visitor','moderator','admin'];
-        $count = 1;
-        foreach ($testing_users as $user){
-            \App\Models\User::factory()->create([
-                'name' => $user,
-                'email' => $user . '@test.com',
-                'role_id' => $count,
-            ]);
-        $count += 1;
-        }
-        $roles = ['Student', 'Professor', 'Visitor', 'Moderator', 'Admin'];
-        foreach ($roles as $role) {
-        \App\Models\Role::factory()->create([
-            'name' => $role,
-        ]);
-        }
+        // \App\Models\User::factory(10)->create();
+
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }
