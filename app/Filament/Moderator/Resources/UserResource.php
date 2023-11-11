@@ -38,7 +38,8 @@ class UserResource extends Resource
                     '4' => 'Moderator',
                     '5' => 'Admin'
                 ])
-                ->required(),
+                ->required()
+                ->disabled(!auth()->user()->isAdmin()),
             ]);
     }
 
@@ -48,7 +49,8 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('role.name'),
+                Tables\Columns\TextColumn::make('role.name')
+                ->disabled(!auth()->user()->isAdmin()),
             ])
             ->filters([
                 //
