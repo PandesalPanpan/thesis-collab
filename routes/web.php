@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('admin/login', function () {
+    return redirect('/');
+})->name('filament.admin.auth.login');
+
+Route::get('moderator/login', function () {
+    return redirect('/');
+})->name('filament.moderator.auth.login');
