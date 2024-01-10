@@ -59,14 +59,14 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         // Uncomment this to require roles to access panel
-        // if ($panel->getId() === 'admin'){
-        //     return str_contains($this->role_id, 5);
-        // }
-        // if ($panel->getId() === 'moderator'){
-        //     if (str_contains($this->role_id, 4) || str_contains($this->role_id, 5)){
-        //         return true;
-        //     }return false;            
-        // }
+        if ($panel->getId() === 'admin'){
+            return str_contains($this->role_id, 5);
+        }
+        if ($panel->getId() === 'moderator'){
+            if (str_contains($this->role_id, 4) || str_contains($this->role_id, 5)){
+                return true;
+            }return false;            
+        }
         return true;
         
     }

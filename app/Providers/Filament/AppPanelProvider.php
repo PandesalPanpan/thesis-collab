@@ -24,6 +24,7 @@ class AppPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('app')
             ->registration() //For Testing Purposes until Final
             ->login()
