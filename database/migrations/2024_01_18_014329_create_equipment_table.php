@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('status', ['stock', 'borrowed','unavailable','missing'])->default('stock');
-            $table->foreignId('category')->nullable();
+            $table->foreignId('category_id')->nullable();
             $table->string('image')->nullable();
-            $table->foreignId('user')->nullable();
+            $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });
     }
