@@ -56,7 +56,8 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Assign & Edit'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
