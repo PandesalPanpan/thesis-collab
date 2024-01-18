@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
-            $table->string('barcode')->nullable();
-            $table->string('rfid')->nullable();
+            $table->string('barcode')->nullable()->unique();
+            $table->string('rfid')->nullable()->unique();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->enum('status', ['stock', 'borrowed','unavailable','missing'])->default('stock');
-            $table->foreignId('category');
-            $table->string('image');
-            $table->foreignId('user');
+            $table->foreignId('category')->nullable();
+            $table->string('image')->nullable();
+            $table->foreignId('user')->nullable();
             $table->timestamps();
         });
     }
