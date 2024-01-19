@@ -70,6 +70,7 @@ class UserResource extends Resource
     {
         return [
             //
+            RelationManagers\EquipmentsRelationManager::class,
         ];
     }
     
