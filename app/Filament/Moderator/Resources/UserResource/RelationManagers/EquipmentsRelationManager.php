@@ -42,9 +42,18 @@ class EquipmentsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\AssociateAction::make(),
+                /* 
+                Eto Jocel Cucustomize mo toh either gawa ka ng custom form field
+                or pwede ding laravel middleware, need aralin talaga
+                Sample Demonstration
+                Student Assistance clicks "Associate" -> Select Equipment 
+                -> Either open the fingerprint scanner app and verifies fingerprint na valid
+                or sa middleware where kapag cinofirm don na lalabas ung fingerprint scanner then verifies
+                */
             ])
             ->actions([
                 Tables\Actions\DissociateAction::make(),
+                // Dito rin jocel ikakabit fingerprint
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
