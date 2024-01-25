@@ -7,6 +7,7 @@ use App\Filament\Moderator\Resources\EquipmentResource\RelationManagers;
 use App\Models\Equipment;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,7 +24,19 @@ class EquipmentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name'),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'stock' => 'Stock',
+                        'borrowed' => 'Borrowed',
+                        'unavailable' => 'Unavailable',
+                        'missing' => 'Missing',
+                    ])
+                    ->default('stock'),
+                TextInput::make('barcode')
+                    ->label('Barcode'),
+                TextInput::make('rfid')
+                    ->label('RFID'),
             ]);
     }
 
@@ -34,7 +47,9 @@ class EquipmentResource extends Resource
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('status'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Borrowed by'),
+                    ->label("Borrowed by"),
+                Tables\Columns\TextColumn::make('barcode'),
+                Tables\Columns\TextColumn::make('rfid'),
             ])
             ->filters([
                 //
