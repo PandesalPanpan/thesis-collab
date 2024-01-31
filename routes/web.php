@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\ListEquipments;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,5 @@ Route::get('admin/login', function () {
 Route::get('moderator/login', function () {
     return redirect('/');
 })->name('filament.moderator.auth.login');
+
+Route::get('equipments', ListEquipments::class);
