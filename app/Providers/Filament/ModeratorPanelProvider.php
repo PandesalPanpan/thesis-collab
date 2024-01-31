@@ -27,7 +27,7 @@ class ModeratorPanelProvider extends PanelProvider
         return $panel
             ->id('moderator')
             ->path('moderator')
-            ->registration() //For Testing Purposes until Final
+            //->registration() //For Testing Purposes until Final
             ->login()
             ->brandName('ITECH Inventory')
             ->colors([
