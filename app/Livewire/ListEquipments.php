@@ -21,7 +21,8 @@ class ListEquipments extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Equipment::query())
+            ->query(Equipment::query()
+                ->whereNull('user_id'))
             ->columns([
                 SpatieMediaLibraryImageColumn::make('equipment-image')
                     ->label('Image'),
