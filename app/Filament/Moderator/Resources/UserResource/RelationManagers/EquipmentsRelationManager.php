@@ -51,11 +51,9 @@ class EquipmentsRelationManager extends RelationManager
                             ->multiple()
                             ->helperText('Scan Barcode or manually type')
                             ->searchable()
-                            // TODO: Only query pluck equipments that have null user_id
                             ->options(Equipment::query()
                                 ->whereNull('user_id')
                                 ->pluck('name','barcode'))
-                            //->options(Equipment::query()->pluck('name', 'barcode'))
                     ])
                     ->action(function (array $data, Equipment $equipment): void{
                         DB::transaction(function () use ($data){
