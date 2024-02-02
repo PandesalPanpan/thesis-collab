@@ -26,5 +26,3 @@ Route::get('moderator/login', function () {
 })->name('filament.moderator.auth.login');
 
 Route::get('', ListEquipments::class);
-
-// Mozo, dito rin ung url ng api tas tatawagin ung controller
