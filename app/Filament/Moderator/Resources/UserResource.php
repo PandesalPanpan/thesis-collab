@@ -33,11 +33,14 @@ class UserResource extends Resource
                 ->required(),
                 Select::make('role_id')
                 ->label('Role')
-                ->options( function (){
+                ->options( function (){ // Admin has all options 
                     if (auth()->user()->isAdmin()){
                         $roles = Role::pluck('name','id')->all();
-                        // TODO: Return an array similar to the old one but using query
                         return($roles);
+                    }else{
+                        return Role::whereNotIn('name', ['Admin', 'Moderator'])
+                                ->pluck('name', 'id')
+                                ->all();
                     }
                 }),
                 TextInput::make('password')
@@ -45,7 +48,6 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create')
-                    //->dehydrateStateUsing(fn (string $state): string => Hash::make($state)),
             ]);
     }
 
