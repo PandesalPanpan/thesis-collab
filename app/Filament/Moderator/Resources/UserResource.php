@@ -4,6 +4,7 @@ namespace App\Filament\Moderator\Resources;
 
 use App\Filament\Moderator\Resources\UserResource\Pages;
 use App\Filament\Moderator\Resources\UserResource\RelationManagers;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -31,15 +33,19 @@ class UserResource extends Resource
                 ->required(),
                 Select::make('role_id')
                 ->label('Role')
-                ->options([
-                    '1' => 'Student',
-                    '2' => 'Professor',
-                    '3' => 'Visitor',
-                    '4' => 'Moderator',
-                    '5' => 'Admin'
-                ])
-                ->required()
-                ->disabled(!auth()->user()->isAdmin()),
+                ->options( function (){
+                    if (auth()->user()->isAdmin()){
+                        $roles = Role::pluck('name','id')->all();
+                        // TODO: Return an array similar to the old one but using query
+                        return($roles);
+                    }
+                }),
+                TextInput::make('password')
+                    ->password()
+                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    //->dehydrateStateUsing(fn (string $state): string => Hash::make($state)),
             ]);
     }
 
