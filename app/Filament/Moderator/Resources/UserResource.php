@@ -36,13 +36,16 @@ class UserResource extends Resource
                 ->options( function (){ // Admin has all options 
                     if (auth()->user()->isAdmin()){
                         $roles = Role::pluck('name','id')->all();
+                        //ddd($this->record());
+                        //(auth()->user());
                         return($roles);
                     }else{
+                        //ddd($this->record());
                         return Role::whereNotIn('name', ['Admin', 'Moderator'])
                                 ->pluck('name', 'id')
                                 ->all();
                     }
-                }),
+                })->selectablePlaceholder(false),
                 TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
