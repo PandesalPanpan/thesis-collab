@@ -45,7 +45,8 @@ class UserResource extends Resource
                                 ->pluck('name', 'id')
                                 ->all();
                     }
-                })->selectablePlaceholder(false),
+                })->selectablePlaceholder(false)
+                ->required(),
                 TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
