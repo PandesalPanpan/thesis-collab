@@ -22,6 +22,7 @@ class ListEquipments extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->query(Equipment::query()
                 ->whereNull('user_id'))
             ->columns([
