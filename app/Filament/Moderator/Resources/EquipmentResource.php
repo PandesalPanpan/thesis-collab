@@ -13,7 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+//use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\FileUpload;
 
 class EquipmentResource extends Resource
@@ -33,9 +33,9 @@ class EquipmentResource extends Resource
                     ->label('Barcode'),
                 TextInput::make('rfid')
                     ->label('RFID'),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('media')
-                    ->conversion('thumb'),
-                //FileUpload::make('image'),
+                //Forms\Components\SpatieMediaLibraryFileUpload::make('media')
+                   // ->conversion('thumb'),
+                FileUpload::make('image'),
                 Forms\Components\MarkdownEditor::make('description')
                     ->columnSpan('full'),
             ]);
@@ -45,9 +45,9 @@ class EquipmentResource extends Resource
     {
     return $table
             ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('equipment-image')
-                    ->label('Image'),
-                //Tables\Columns\ImageColumn::make('image'),
+                //Tables\Columns\SpatieMediaLibraryImageColumn::make('equipment-image')
+                  //  ->label('Image'),
+                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label("Borrowed by"),
