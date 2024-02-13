@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('barcode')->nullable()->unique();
             $table->string('rfid')->nullable()->unique();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->enum('status', ['stock', 'borrowed','unavailable','missing'])->default('stock');
+            $table->string('name')->nullable();
+            $table->longText('description')->nullable();
+            //$table->enum('status', ['stock', 'borrowed','unavailable','missing'])->default('stock');
             $table->foreignId('category_id')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('user_id')->nullable();

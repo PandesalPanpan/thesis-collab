@@ -26,10 +26,10 @@ class AppPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('app')
-            ->registration() //For Testing Purposes until Final
+            //->registration() //For Testing Purposes until Final
             ->login()
             ->brandName('ITECH Inventory')
-            ->path('')
+            ->path('app')
             ->colors([
                 'primary' => Color::Red,
             ])

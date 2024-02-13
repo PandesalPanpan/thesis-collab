@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\ListEquipments;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,13 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::get('admin/login', function () {
-    return redirect('/');
+    return redirect('app');
 })->name('filament.admin.auth.login');
 
 Route::get('moderator/login', function () {
-    return redirect('/');
+    return redirect('app');
 })->name('filament.moderator.auth.login');
+
+Route::get('', ListEquipments::class);
+
+// Mozo, dito rin ung url ng api tas tatawagin ung controller
