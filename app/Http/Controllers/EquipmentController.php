@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Filament\Notifications\Notification;
 use App\Models\Equipment;
 
 class EquipmentController extends Controller
@@ -36,6 +37,7 @@ class EquipmentController extends Controller
             }
         } else {
             return response()->json(['message' => 'Tag not found'], 404);
+            
         }
     }
 }
