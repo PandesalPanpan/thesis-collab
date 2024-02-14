@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 //use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\TernaryFilter;
 use Milon\Barcode\DNS1D;
 
 class EquipmentResource extends Resource
@@ -69,9 +70,17 @@ class EquipmentResource extends Resource
             ])
             ->filters([
                 //
-                Filter::make('user.name')
-                    ->toggle()
-                    // TODO: Create a query to select * where there user.name is null
+                TernaryFilter::make('user_id')
+                    ->label('Borrow State')
+                    ->placeholder('All')
+                    ->trueLabel('Borrowed')
+                    ->falseLabel('Unborrowed')
+                    ->nullable()
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereNotNull('user_id'),
+                        false: fn (Builder $query) => $query->whereNull('user_id'),
+                        blank: fn (Builder $query) => $query,
+                    )
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
