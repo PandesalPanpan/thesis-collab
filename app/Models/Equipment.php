@@ -14,7 +14,9 @@ class Equipment extends Model //implements HasMedia
     use HasFactory;
     //use InteractsWithMedia;
     protected $fillable = [
-        'name','user_id'
+        'name',
+        'user_id',
+        'status',
     ];
     // public function registerMediaConversions(Media $media = null): void
     // {
