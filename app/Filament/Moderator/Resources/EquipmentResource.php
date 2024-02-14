@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 //use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\Filter;
 use Milon\Barcode\DNS1D;
 
 class EquipmentResource extends Resource
@@ -68,6 +69,9 @@ class EquipmentResource extends Resource
             ])
             ->filters([
                 //
+                Filter::make('user.name')
+                    ->toggle()
+                    // TODO: Create a query to select * where there user.name is null
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
