@@ -51,9 +51,11 @@ class EquipmentResource extends Resource
                 //Tables\Columns\SpatieMediaLibraryImageColumn::make('equipment-image')
                   //  ->label('Image'),
                 Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label("Borrowed by"),
+                    ->label("Borrowed by")
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('barcode')
                     ->url(fn(Equipment $record): string => route('barcode', ['barcode' => $record->barcode]))
                     ->openUrlInNewTab()
