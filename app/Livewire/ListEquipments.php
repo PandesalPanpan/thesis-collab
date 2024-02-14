@@ -29,7 +29,8 @@ class ListEquipments extends Component implements HasForms, HasTable
                 ImageColumn::make('image'),
                 //SpatieMediaLibraryImageColumn::make('equipment-image')
                   //  ->label('Image'),
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->searchable(),
             ])
             ->filters([
                 // ...
