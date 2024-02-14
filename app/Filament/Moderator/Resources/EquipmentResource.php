@@ -13,8 +13,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+//use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\FileUpload;
+use Milon\Barcode\DNS1D;
 
 class EquipmentResource extends Resource
 {
@@ -28,14 +29,15 @@ class EquipmentResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name'),
+                TextInput::make('name')
+                    ->required(),
                 TextInput::make('barcode')
                     ->label('Barcode'),
                 TextInput::make('rfid')
                     ->label('RFID'),
-                Forms\Components\SpatieMediaLibraryFileUpload::make('media')
-                    ->conversion('thumb'),
-                //FileUpload::make('image'),
+                //Forms\Components\SpatieMediaLibraryFileUpload::make('media')
+                   // ->conversion('thumb'),
+                FileUpload::make('image'),
                 Forms\Components\MarkdownEditor::make('description')
                     ->columnSpan('full'),
             ]);
@@ -44,14 +46,21 @@ class EquipmentResource extends Resource
     public static function table(Table $table): Table
     {
     return $table
+            ->deferLoading()
             ->columns([
-                Tables\Columns\SpatieMediaLibraryImageColumn::make('equipment-image')
-                    ->label('Image'),
-                //Tables\Columns\ImageColumn::make('image'),
+                //Tables\Columns\SpatieMediaLibraryImageColumn::make('equipment-image')
+                  //  ->label('Image'),
+                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label("Borrowed by"),
-                Tables\Columns\TextColumn::make('barcode'),
+                Tables\Columns\TextColumn::make('barcode')
+                    ->url(fn(Equipment $record): string => route('barcode', ['barcode' => $record->barcode]))
+                    ->openUrlInNewTab()
+                    ->formatStateUsing(function ($record){
+                        $barcode = DNS1D::getBarcodeHTML($record->barcode, 'C128');
+                        return $barcode;
+                    })->html(),
                 Tables\Columns\TextColumn::make('rfid')
                     ->label("RFID"),
             ])

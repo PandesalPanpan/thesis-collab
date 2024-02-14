@@ -26,3 +26,11 @@ Route::get('moderator/login', function () {
 })->name('filament.moderator.auth.login');
 
 Route::get('', ListEquipments::class);
+
+Route::get('barcodeview/{barcode}', function ($slug){
+    return view('barcode',[
+        'barcode' => $slug
+    ]);
+})->name('barcode');
+
+// Mozo, dito rin ung url ng api tas tatawagin ung controller

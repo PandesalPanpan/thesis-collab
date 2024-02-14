@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\AssociateAction;
+use Illuminate\Support\Facades\DB;
 
 class EquipmentsRelationManager extends RelationManager
 {
@@ -28,7 +29,7 @@ class EquipmentsRelationManager extends RelationManager
                 //     ->maxLength(255),
                 Forms\Components\Select::make('name')
                     ->label('Equipment')
-                    ->options([Equipment::whereNull('user_id')->pluck('name')
+                    ->options([Equipment::whereNull('user_id')->pluck('name','barcode')
                     ]),
             ]);
     }
@@ -44,28 +45,26 @@ class EquipmentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AssociateAction::make()
-                    ->recordSelect(fn (Select $select) => $select->multiple()),
-                    //->recordSelectSearchColumns(['name', 'barcode']),
                 Tables\Actions\Action::make('Borrow')
                     ->form([
-                        Forms\Components\Select::make('barcode')
-                            ->searchable()
-                            ->multiple()
-                            ///where('barcode') is what is searched and pluck('name') is what appears
-                            ->getSearchResultsUsing(fn (string $search): array => Equipment::where('barcode', 'like', "%{$search}%")->limit(50)->pluck('name')->toArray())
-                    ]),
-                Tables\Actions\Action::make('Borrow Test')
-                    ->form([
                         Forms\Components\Select::make('name')
+                            ->multiple()
+                            ->helperText('Scan Barcode or manually type')
                             ->searchable()
-                            ->options(Equipment::query()->pluck('name','barcode'))
-                            //->getSearchResultsUsing(fn (string $search): array => Equipment::where('barcode', 'like', "%{$search}%")->limit(50)->pluck('name')->toArray())
+                            ->options(Equipment::query()
+                                ->whereNull('user_id')
+                                ->pluck('name','barcode'))
                     ])
                     ->action(function (array $data, Equipment $equipment): void{
-                        $user = User::find(1);
-                        $equipment->user()->associate($user);
-                        $equipment->save();
+                        DB::transaction(function () use ($data){
+                            $user = $this->getOwnerRecord();
+                            foreach ($data["name"] as $value){
+                                $equipment = Equipment::whereIn('barcode', [$value])->first();
+                                $equipment->user()->associate($user);
+                                $equipment->save();
+                            }
+                        });
+                        
                     })
                 /* 
                 Eto Jocel Cucustomize mo toh either gawa ka ng custom form field

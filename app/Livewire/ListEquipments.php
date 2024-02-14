@@ -10,7 +10,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+//use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Livewire\Component;
 
 class ListEquipments extends Component implements HasForms, HasTable
@@ -21,11 +22,15 @@ class ListEquipments extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Equipment::query())
+            ->deferLoading()
+            ->query(Equipment::query()
+                ->whereNull('user_id'))
             ->columns([
-                SpatieMediaLibraryImageColumn::make('equipment-image')
-                    ->label('Image'),
-                TextColumn::make('name'),
+                ImageColumn::make('image'),
+                //SpatieMediaLibraryImageColumn::make('equipment-image')
+                  //  ->label('Image'),
+                TextColumn::make('name')
+                    ->searchable(),
             ])
             ->filters([
                 // ...
