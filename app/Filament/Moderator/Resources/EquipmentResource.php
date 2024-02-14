@@ -55,6 +55,8 @@ class EquipmentResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label("Borrowed by"),
                 Tables\Columns\TextColumn::make('barcode')
+                    ->url(fn(Equipment $record): string => route('barcode', ['barcode' => $record->barcode]))
+                    ->openUrlInNewTab()
                     ->formatStateUsing(function ($record){
                         $barcode = DNS1D::getBarcodeHTML($record->barcode, 'C128');
                         return $barcode;
