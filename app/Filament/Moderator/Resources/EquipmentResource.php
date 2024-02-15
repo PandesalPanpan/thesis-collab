@@ -55,7 +55,8 @@ class EquipmentResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label("Borrowed by")
-                    ->searchable(),
+                    ->searchable()
+                    ->placeholder("Not Borrowed"),
                 Tables\Columns\TextColumn::make('barcode')
                     ->url(fn(Equipment $record): string => route('barcode', ['barcode' => $record->barcode]))
                     ->openUrlInNewTab()
