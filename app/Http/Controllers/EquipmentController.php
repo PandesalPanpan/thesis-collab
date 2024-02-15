@@ -35,7 +35,9 @@ class EquipmentController extends Controller
                 // Create logs entry
                 $logs = new log();
                 $logs->equipment_id = $rfidTag->id;
-                $logs->status = 1; // Permission granted
+                $logs->rfid = $rfidTag->rfid;
+                $logs->name = $rfidTag->name;
+                $logs->status = "Permission Granted"; // Permission granted
                 $logs->save();
 
                 return response()->json(['message' => 'Permission granted'], 200);
@@ -43,7 +45,9 @@ class EquipmentController extends Controller
                 // Create logs entry
                 $logs = new log();
                 $logs->equipment_id = $rfidTag->id;
-                $logs->status = 0; // Permission denied
+                $logs->rfid = $rfidTag->rfid;
+                $logs->name = $rfidTag->name;
+                $logs->status = "Permission Denied"; // Permission denied
                 $logs->save();
 
                 return response()->json(['message' => 'Permission denied'], 403);
