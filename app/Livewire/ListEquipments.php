@@ -47,3 +47,4 @@ class ListEquipments extends Component implements HasForms, HasTable
         return view('livewire.list-equipments');
     }
 }
+?>
