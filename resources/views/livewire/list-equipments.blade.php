@@ -1,3 +1,13 @@
+<head>
+<style>
+@media (max-width: 640px) {
+  .side-panel {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+    </style>
+    </head>
 <div class="flex bg-gray-100">
     <!-- Side Panel -->
     <div class="w-1/4 p-6 mr-8 flex flex-col justify-start items-center rounded-lg shadow-md bg-red-800 text-white">
