@@ -13,7 +13,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-//use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -37,9 +36,9 @@ class EquipmentResource extends Resource
                     ->label('Barcode'),
                 TextInput::make('rfid')
                     ->label('RFID'),
-                //Forms\Components\SpatieMediaLibraryFileUpload::make('media')
-                   // ->conversion('thumb'),
-                FileUpload::make('image'),
+                FileUpload::make('image')
+                    ->image()
+                    ->imageEditor(),
                 Forms\Components\MarkdownEditor::make('description')
                     ->columnSpan('full'),
             ]);
@@ -50,8 +49,6 @@ class EquipmentResource extends Resource
     return $table
             ->deferLoading()
             ->columns([
-                //Tables\Columns\SpatieMediaLibraryImageColumn::make('equipment-image')
-                  //  ->label('Image'),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
