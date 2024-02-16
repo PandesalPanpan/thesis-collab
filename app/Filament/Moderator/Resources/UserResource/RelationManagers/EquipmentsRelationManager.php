@@ -36,6 +36,7 @@ class EquipmentsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        //ddd(Equipment::query()->whereNull('user_id')->pluck('barcode','name')->toArray());
         return $table
             ->recordTitleAttribute('name')
             ->columns([
@@ -50,14 +51,25 @@ class EquipmentsRelationManager extends RelationManager
                         Forms\Components\Select::make('name')
                             ->multiple()
                             ->helperText('Scan Barcode or manually type')
+                            // ->options(Equipment::query()
+                            //     ->whereNull('user_id')
+                            //     ->pluck('name','barcode')
+                                ->options(Equipment::query()
+                                    ->select([
+                                        DB::raw("CONCAT(name, ' ', barcode) as namecode"), 'barcode',
+                                    ])
+                                    ->whereNull('user_id')
+                                    ->pluck('namecode','barcode')
+                                    ->toArray())
                             ->searchable()
-                            ->options(Equipment::query()
-                                ->whereNull('user_id')
-                                ->pluck('name','barcode'))
-                    ])
+                            // TODO: Searchable using both name
+                            // ->getSearchResultsUsing(fn (string $search): array => Equipment::where('barcode','name', 'like', "%{$search}%")->limit(50)->pluck('name','id')->toArray())
+                            // ->getOptionLabelUsing(fn ($value): ?string => Equipment::find($value)?->barcode),
+                            ])  
                     ->action(function (array $data, Equipment $equipment): void{
                         DB::transaction(function () use ($data){
                             $user = $this->getOwnerRecord();
+                            //ddd($data["name"]);
                             foreach ($data["name"] as $value){
                                 $equipment = Equipment::whereIn('barcode', [$value])->first();
                                 $equipment->user()->associate($user);
