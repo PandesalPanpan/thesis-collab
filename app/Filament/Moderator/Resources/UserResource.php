@@ -30,7 +30,8 @@ class UserResource extends Resource
                 TextInput::make('name')
                 ->required(),
                 TextInput::make('email')
-                ->required(),
+                ->required()
+                ->unique(),
                 Select::make('role_id')
                 ->label('Role')
                 ->options( function (){ // Admin has all options 
