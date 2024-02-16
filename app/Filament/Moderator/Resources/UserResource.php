@@ -31,7 +31,7 @@ class UserResource extends Resource
                 ->required(),
                 TextInput::make('email')
                 ->required()
-                ->unique(),
+                ->email(),
                 Select::make('role_id')
                 ->label('Role')
                 ->options( function (){ // Admin has all options 
@@ -46,7 +46,7 @@ class UserResource extends Resource
                                 ->pluck('name', 'id')
                                 ->all();
                     }
-                })->selectablePlaceholder(false)
+                })
                 ->required(),
                 TextInput::make('password')
                     ->password()
