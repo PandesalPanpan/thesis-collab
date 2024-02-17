@@ -13,18 +13,28 @@
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-@media (max-width: 640px) {
-  .side-panel {
-    width: 100%;
-    margin-right: 0;
-  }
-}
+        /* Add custom styles here */
+        @media (max-width: 640px) {
+            .flex-col {
+                flex-direction: column;
+            }
+            .text-center {
+                text-align: center;
+            }
+            .side-panel {
+                width: 100%;
+                margin-right: 0;
+            }
+            .bg-red-800 {
+                background-color: red; /* Change to your desired background color */
+            }
+        }
     </style>
 </head>
-<body class="bg-red-800 flex items-center justify-center h-screen">
+<body class="bg-red-800 flex flex-col items-center justify-center h-screen">
     <div class="text-center">
         <!-- Assuming the $barcode variable is valid and DNS1D::getBarcodePNG() works -->
-        <img src="{{url('/public/images.png')}}" alt="Image"/>
+        <img src="{{url('/public/images.png')}}" alt="Image" class="mb-4 max-w-full">
         <p class="mt-4 text-yellow-500 text-sm">Right-click the barcode and select "Save image as..." to save it.</p>
     </div>
 </body>

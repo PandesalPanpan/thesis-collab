@@ -1,10 +1,9 @@
-
-<div class="flex bg-gray-100">
+<div class="flex flex-col bg-gray-100 md:flex-row">
     <!-- Side Panel -->
-    <div class="w-1/4 p-6 mr-8 flex flex-col justify-start items-center rounded-lg shadow-md bg-red-800 text-white">
+    <div class="md:w-1/4 p-6 md:mr-8 flex flex-col justify-start items-center rounded-lg shadow-md bg-red-800 text-white">
         <div class="flex flex-col items-start mb-8">
             <!-- Image -->
-            <img class="object-cover object-center items-center rounded-full h-auto w-32 md:w-48 mb-4" src="images.png" alt="image"/>
+            <img class="object-cover object-center rounded-full h-auto w-32 md:w-48 mb-4" src="images.png" alt="image"/>
             <!-- Title -->
             <h1 class="text-3xl font-semibold mb-2">Laboratory</h1>
             <h1 class="text-3xl font-semibold mb-4">Equipments</h1>
