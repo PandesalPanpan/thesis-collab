@@ -1,25 +1,26 @@
-<div class="flex flex-col bg-gray-100 md:flex-row">
+<div class="container mx-auto px-4 py-8 md:py-16 flex flex-col justify-between h-full relative">
+    <!-- Image -->
+    <img class="object-cover object-center rounded-full h-32 w-32 md:h-48 md:w-48 absolute top-0 left-0 justify-start mt-16 md:mt-0 ml-4" src="images.png" alt="image"/>
+    
     <!-- Side Panel -->
-    <div class="md:w-1/4 p-6 md:mr-8 flex flex-col justify-start items-center rounded-lg shadow-md bg-red-800 text-white">
-        <div class="flex flex-col items-start mb-8">
-            <!-- Image -->
-            <img class="object-cover object-center rounded-full h-auto w-32 md:w-48 mb-4" src="images.png" alt="image"/>
-            <!-- Title -->
-            <h1 class="text-3xl font-semibold mb-2">Laboratory</h1>
-            <h1 class="text-3xl font-semibold mb-4">Equipments</h1>
-        </div>
-
-        <div class="bg-white p-8 flex flex-col justify-center items-center rounded-full shadow-md hover:text-center">
-            <a href="/app" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105 mb-8">
-                Access Panel
-            </a>
+    <div class="bg-red-800 text-white rounded-lg shadow-md p-2 md:p-4 top-1 left-5 flex items-center justify-center w-92 md:w-96">
+        <!-- Text -->
+        <div>
+            <h1 class="text-3xl md:text-3xl font-semibold mb-4">Laboratory Equipment</h1>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 bg-white p-6 h-screen rounded-3xl">
+    <div class="main-content bg-white rounded-lg shadow-md p-6 md:p-10 overflow-x-auto w-full">
         <section>
             {{ $this->table }}
         </section>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-white p-8 flex justify-end items-end rounded-full shadow-md hover:text-center">
+        <a href="/app" class="text-gray-200">
+            Access Panel
+        </a>
     </div>
 </div>
