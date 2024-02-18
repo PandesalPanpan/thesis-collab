@@ -49,4 +49,3 @@ class ListEquipments extends Component implements HasForms, HasTable
     }
 }
 ?>
-

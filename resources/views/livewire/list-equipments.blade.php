@@ -19,7 +19,7 @@
 
     <!-- Footer -->
     <div class="bg-white p-8 flex justify-end items-end rounded-full shadow-md hover:text-center">
-        <a href="/app" class="text-gray-200">
+        <a href="/moderator" class="text-gray-200">
             Access Panel
         </a>
     </div>
