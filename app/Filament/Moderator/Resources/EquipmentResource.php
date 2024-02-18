@@ -21,10 +21,10 @@ use Milon\Barcode\DNS1D;
 class EquipmentResource extends Resource
 {
     protected static ?string $model = Equipment::class;
-    protected static bool $shouldSkipAuthorization = true;
-
-
+    // Di naman nagana?? maybe in case of ever requires logging in not admin/moderator
+    //protected static bool $shouldSkipAuthorization = true; 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
