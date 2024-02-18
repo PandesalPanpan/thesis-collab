@@ -19,9 +19,11 @@ class RedirectToPanel
         if (Auth::user() && Auth::user()->role->name === "Admin"){
             return redirect("/admin");
         }
-        if (Auth::user() && Auth::user()->role->name === "Moderator"){
-            return redirect("/moderator");
-        }
+        /* If even I need to use the App Panel again so user could possibly like have to log in
+           Make sure the routes also for redirect the moderator is uncommented*/
+        // if (Auth::user() && Auth::user()->role->name === "Moderator"){
+        //     return redirect("/moderator");
+        // }
         return $next($request);
     }
 }
