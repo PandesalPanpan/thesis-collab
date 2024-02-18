@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 //use Filament\Http\Middleware\Authenticate;
 use App\Http\Middleware\FilamentAuthenticate;
+use App\Http\Middleware\RedirectToPanel;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -25,6 +26,7 @@ class ModeratorPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('moderator')
             ->path('moderator')
             //->registration() //For Testing Purposes until Final
@@ -52,6 +54,7 @@ class ModeratorPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                RedirectToPanel::class,
             ])
             ->authMiddleware([
                 FilamentAuthenticate::class,
