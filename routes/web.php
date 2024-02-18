@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::get('admin/login', function () {
-    return redirect('app');
+    return redirect('moderator'); // This used to be for App Panel
 })->name('filament.admin.auth.login');
 
-Route::get('moderator/login', function () {
-    return redirect('app');
-})->name('filament.moderator.auth.login');
+// Route::get('moderator/login', function () {
+//     return redirect('app');
+// })->name('filament.moderator.auth.login');
 
 Route::get('', ListEquipments::class);
 
@@ -32,5 +32,3 @@ Route::get('barcodeview/{barcode}', function ($slug){
         'barcode' => $slug
     ]);
 })->name('barcode');
-
-// Mozo, dito rin ung url ng api tas tatawagin ung controller
