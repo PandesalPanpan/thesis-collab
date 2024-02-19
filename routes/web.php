@@ -32,5 +32,8 @@ Route::get('barcodeview/{barcode}', function ($slug) {
     // return view('barcode', ['barcode' => $slug]);
 })->name('barcode');
 
+//Route::post('/', 'App\Http\Controllers\EquipmentController@index');
+//Route::post('/broadcast', 'App\Http\Controllers\EquipmentController@broadcast');
+//Route::post('/receive', 'App\Http\Controllers\EquipmentController@receive');
 
 // Mozo, dito rin ung url ng api tas tatawagin ung controller
