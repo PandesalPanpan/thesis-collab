@@ -23,7 +23,7 @@
 
     <!-- Footer -->
     <div class="bg-white p-8 flex justify-end items-end rounded-full shadow-md hover:text-center">
-        <a href="/moderator" class="text-gray-200">
+        <a href="/moderator" class="text-slate-600">
             Access Panel
         </a>
     </div>

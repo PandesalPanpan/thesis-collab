@@ -22,6 +22,7 @@ module.exports = {
         'bg-orange-200',
         'bg-orange-300',
         'bg-slate-600',
+        'text-slate-600',
     ],
     theme: {
         screens: {
