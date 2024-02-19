@@ -21,17 +21,23 @@ module.exports = {
         'bg-orange-100',
         'bg-orange-200',
         'bg-orange-300',
+        'bg-slate-600',
     ],
     theme: {
-        extend: {
-            color: {},
-        },
         screens: {
             'sm': '640px',
             'md': '768px',
             'lg': '1024px',
             'xl': '1280px',
             '2xl': '1536px',
+            'tablet':'800px',
+            'phone': '600px',
+            'desktop': '1920px',
+        },
+        extend: {
+            fontWeight: {
+                'medium': 500,
+            },
         },
     },
     plugins: [],

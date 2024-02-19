@@ -1,12 +1,16 @@
-<div class="container mx-auto px-4 py-8 md:py-16 flex flex-col justify-between h-full relative">
-    <!-- Image -->
-    <img class="object-cover object-center rounded-full h-32 w-32 md:h-48 md:w-48 absolute top-0 left-0 justify-start mt-16 md:mt-0 ml-4" src="images.png" alt="image"/>
-    
+<div class="grid h-screen sm:grid-cols-1 md:flex md:grid-cols-2 pt-20">
     <!-- Side Panel -->
-    <div class="bg-red-800 text-white rounded-lg shadow-md p-2 md:p-4 top-1 left-5 flex items-center justify-center w-92 md:w-96">
-        <!-- Text -->
-        <div>
-            <h1 class="text-3xl md:text-3xl font-semibold mb-4">Laboratory Equipment</h1>
+    <div class="flex-none w-1/3 bg-gray-200 px-6 py-8">
+        <div class="bg-red-800 text-white rounded-lg shadow-md p-4 flex flex-col justify-center items-center md:h-screen ">
+            <!-- Image -->
+            <div class="relative flex justify-center items-center mt-8 gap-x-3">
+                <img class="object-cover object-center rounded-full h-32 w-32 md:h-48 md:w-48" src="images.png" alt="image"/>
+            </div>
+            
+            <!-- Text -->
+            <div>
+                <h1 class="text-3xl md:text-3xl font-semibold mb-4">Laboratory Equipment</h1>
+            </div>
         </div>
     </div>
 
@@ -19,7 +23,7 @@
 
     <!-- Footer -->
     <div class="bg-white p-8 flex justify-end items-end rounded-full shadow-md hover:text-center">
-        <a href="/moderator" class="text-gray-200">
+        <a href="/app" class="text-gray-200">
             Access Panel
         </a>
     </div>
