@@ -26,6 +26,9 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             //->default()
+            ->resources([
+                config('filament-logger.activity_resource')
+            ])
             ->id('admin')
             ->path('admin')
             //->registration() //For testing purposes until final
