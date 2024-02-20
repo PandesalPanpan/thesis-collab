@@ -32,14 +32,14 @@ class EquipmentResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
-                    ->unique(),
+                    ->unique(ignoreRecord: true),
                 TextInput::make('barcode')
                     ->label('Barcode')
                     ->required()
-                    ->unique(),
+                    ->unique(ignoreRecord: true),
                 TextInput::make('rfid')
                     ->label('RFID')
-                    ->unique(),
+                    ->unique(ignoreRecord: true),
                 FileUpload::make('image')
                     ->image()
                     ->imageEditor(),
