@@ -64,6 +64,7 @@ class EquipmentController extends Controller
                 $logs->save();
 
                 $responses[] = ['rfid' => $tag, 'message' => 'Permission denied'];
+                return response()->json($responses, 403); // Return 403 Forbidden status
             }
         } else {
             $responses[] = ['rfid' => $tag, 'message' => 'Tag not found'];
