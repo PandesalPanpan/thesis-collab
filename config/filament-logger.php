@@ -43,6 +43,10 @@ return [
         [
             'log_name' => 'Inventory',
             'color' => 'primary',
+        ],
+        [
+            'log_name' => 'User',
+            'color' => 'success',
         ]
     ],
 ];
