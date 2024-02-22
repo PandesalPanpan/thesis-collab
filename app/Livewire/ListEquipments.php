@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 //use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Livewire\Component;
+ 
 
 class ListEquipments extends Component implements HasForms, HasTable
 {
@@ -47,3 +48,4 @@ class ListEquipments extends Component implements HasForms, HasTable
         return view('livewire.list-equipments');
     }
 }
+?>
