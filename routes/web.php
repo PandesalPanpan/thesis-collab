@@ -32,3 +32,9 @@ Route::get('barcodeview/{barcode}', function ($slug){
         'barcode' => $slug
     ]);
 })->name('barcode');
+
+// Call Artisan Storage link in the access
+Route::get('create-symlink', function (){
+    Artisan::call('storage:link');
+    return response('Done...');
+});
