@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class LogResource extends Resource
 {
     protected static ?string $model = Log::class;
-
+    protected static ?string $label = "RFID Logs";
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 3;
