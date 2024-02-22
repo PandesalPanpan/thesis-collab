@@ -31,8 +31,7 @@ class EquipmentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required()
-                    ->unique(ignoreRecord: true),
+                    ->required(),
                 TextInput::make('barcode')
                     ->label('Barcode')
                     ->required()
