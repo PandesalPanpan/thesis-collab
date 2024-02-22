@@ -44,7 +44,7 @@ class EquipmentController extends Controller
 
         if ($rfidTag) {
             // Check if the tag is allowed
-            if ($rfidTag->status) {
+            if ($rfidTag->user_id) {
                 // Create logs entry
                 $logs = new Log(); // Corrected class name to 'Log' assuming it's the correct one
                 $logs->equipment_id = $rfidTag->id;
