@@ -34,6 +34,12 @@ class LogResource extends Resource
         return $table
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('rfid'),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Permission'),
             ])
             ->filters([
                 //
