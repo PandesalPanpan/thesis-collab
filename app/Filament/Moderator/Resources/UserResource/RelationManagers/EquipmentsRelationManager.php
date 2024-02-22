@@ -54,20 +54,16 @@ class EquipmentsRelationManager extends RelationManager
                             ->searchable()
                             ->getSearchResultsUsing(fn (string $search): array => Equipment::query()
                             //->getOptionLabelUsing(fn ($value): ?string => Equipment::find($value)?->name)
-                            ->where('name', 'like', "%{$search}%")
-                            ->orWhere('barcode', 'like', "%{$search}%")
-                            ->whereNull('user_id')
+                            ->where('name', 'like', "%{$search}%")->whereNull('user_id')
+                            ->orWhere('barcode', 'like', "%{$search}%")->whereNull('user_id')
                             ->limit(50)
                             ->pluck('name','id')
-                            ->toArray()
-                            )
-                                // ->options(Equipment::query()
-                                //     ->whereNull('user_id')
-                                //     ->orWhere('barcode')
-                                //     ->pluck('name','barcode')
-                                    
-                                //     )
-                                // ->searchable(),
+                            ->toArray())
+                            ->preload(),
+                        Forms\Components\Textarea::make('borrow_purpose')
+                            ->label("Purpose for borrowing")
+                            ->required()
+                            ])
                             // ->options(Equipment::query()
                             //     ->whereNull('user_id')
                             //     ->pluck('name','barcode')
@@ -81,17 +77,16 @@ class EquipmentsRelationManager extends RelationManager
                             //         ->toArray())
                             // ->searchable()
 
-                            // TODO: Searchable using both name
-                            // ->getSearchResultsUsing(fn (string $search): array => Equipment::where('barcode','name', 'like', "%{$search}%")->limit(50)->pluck('name','id')->toArray())
-                            // ->getOptionLabelUsing(fn ($value): ?string => Equipment::find($value)?->barcode),
-                            ])  
+
                     ->action(function (array $data, Equipment $equipment): void{
                         DB::transaction(function () use ($data){
                             $user = $this->getOwnerRecord();
-                            //ddd($data["name"]);
+                            // ddd($data);
+                            // ddd($data["name"]);
                             foreach ($data["name"] as $value){
                                 $equipment = Equipment::whereIn('id', [$value])->first();
                                 $equipment->user()->associate($user);
+                                $equipment->borrow_purpose = $data["borrow_purpose"];
                                 $equipment->save();
                             }
                         });
@@ -106,6 +101,7 @@ class EquipmentsRelationManager extends RelationManager
                 or sa middleware where kapag cinofirm don na lalabas ung fingerprint scanner then verifies
                 */
             ])
+            // TODO: Possibly need to customize the disassociate to remove the borrow purpose
             ->actions([
                 Tables\Actions\DissociateAction::make(),
                 // Dito rin jocel ikakabit fingerprint
