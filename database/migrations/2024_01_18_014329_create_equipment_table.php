@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('user_id')->nullable();
+            $table->boolean('status')->default(0);
             $table->text('borrow_purpose')->nullable();
             $table->timestamps();
         });

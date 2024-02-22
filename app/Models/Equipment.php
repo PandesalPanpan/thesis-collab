@@ -17,7 +17,9 @@ class Equipment extends Model //implements HasMedia
     use LogsActivity;
     //use InteractsWithMedia;
     protected $fillable = [
-        'name','user_id'
+        'name',
+        'user_id',
+        'status',
     ];
     public function getActivitylogOptions(): LogOptions
     {
