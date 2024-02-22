@@ -168,34 +168,10 @@ class ActivityResource extends Resource
                     ->label(__('filament-logger::filament-logger.resource.label.type'))
                     ->options(static::getLogNameList()),
 
-                SelectFilter::make('subject_type')
-                    ->label(__('filament-logger::filament-logger.resource.label.subject_type'))
-                    ->options(static::getSubjectTypeList()),
-                // Filter::make('subject->name')
-                //     ->label('Subject')
-                //     ->form([
-                //         TextInput::make('subject')
-                //     ])
-                //     // TODO: Be able to search subject names
-                //     ->query(function (Builder $query, array $data): Builder {
-				// 		if (!$data) {
-				// 			return $query;
-				// 		}
-                //         //ddd($data);
-				// 		return $query->where('subject->name', 'like', "%{$data['subject.name']}%");
-				// 	}),
-                    //->query(function (Builder $query): Builder {$query->where('test', true))} ,
-                    // TernaryFilter::make('user_id')
-                    // ->label('Borrow State')
-                    // ->placeholder('All')
-                    // ->trueLabel('Borrowed')
-                    // ->falseLabel('Unborrowed')
-                    // ->nullable()
-                    // ->queries(
-                    //     true: fn (Builder $query) => $query->whereNotNull('user_id'),
-                    //     false: fn (Builder $query) => $query->whereNull('user_id'),
-                    //     blank: fn (Builder $query) => $query,
-                    // )
+                // SelectFilter::make('subject_type')
+                //     ->label(__('filament-logger::filament-logger.resource.label.subject_type'))
+                //     ->options(static::getSubjectTypeList()),
+
                 Filter::make('properties->old')
 					->indicateUsing(function (array $data): ?string {
 						if (!$data['old']) {
