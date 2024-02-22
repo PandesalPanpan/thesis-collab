@@ -61,9 +61,8 @@ class EquipmentResource extends Resource
                     ->searchable()
                     ->placeholder("Not Borrowed"),
                 Tables\Columns\TextColumn::make('barcode')
-                    ->url(fn(Equipment $record): string => route('barcode', ['barcode' => $record->barcode]))
-                    ->openUrlInNewTab()
-                    ->formatStateUsing(function ($record){
+                    ->formatStateUsing(function ($record) {
+                        dd($record->barcode); // Dump the barcode value
                         $barcode = DNS1D::getBarcodeHTML($record->barcode, 'C128');
                         return $barcode;
                     })->html(),

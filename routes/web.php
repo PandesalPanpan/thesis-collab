@@ -27,8 +27,7 @@ Route::get('admin/login', function () {
 
 Route::get('', ListEquipments::class);
 
-Route::get('barcodeview/{barcode}', function ($slug){
-    return view('barcode',[
-        'barcode' => $slug
-    ]);
+Route::get('barcodeview/{barcode}', function ($slug) {
+    dd($slug);
+    // return view('barcode', ['barcode' => $slug]);
 })->name('barcode');
