@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
+            $table->integer('equipment_id');
+            $table->string('rfid');
+            $table->string('name');
+            $table->string('status');
             $table->timestamps();
         });
     }
