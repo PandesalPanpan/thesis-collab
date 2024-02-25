@@ -33,15 +33,18 @@ class EquipmentResource extends Resource
                 TextInput::make('name')
                     // TODO: Add Validation for doesn't start with white space
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->doesntStartWith([' ']),
                 TextInput::make('barcode')
                     ->label('Barcode')
                     ->required()
                     ->maxLength(255)
+                    ->doesntStartWith([' '])
                     ->unique(ignoreRecord: true),
                 TextInput::make('rfid')
                     ->label('RFID')
                     ->maxLength(255)
+                    ->doesntStartWith([' '])
                     ->unique(ignoreRecord: true),
                 FileUpload::make('image')
                     ->image()

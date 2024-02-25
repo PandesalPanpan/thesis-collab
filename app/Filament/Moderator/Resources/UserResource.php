@@ -31,7 +31,8 @@ class UserResource extends Resource
             ->schema([
                 TextInput::make('name')
                 ->required()
-                ->maxLength(255),
+                ->maxLength(255)
+                ->doesntStartWith([' ']),
                 TextInput::make('email')
                 ->required()
                 ->maxLength(255)
