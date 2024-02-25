@@ -31,13 +31,17 @@ class EquipmentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required(),
+                    // TODO: Add Validation for doesn't start with white space
+                    ->required()
+                    ->maxLength(255),
                 TextInput::make('barcode')
                     ->label('Barcode')
                     ->required()
+                    ->maxLength(255)
                     ->unique(ignoreRecord: true),
                 TextInput::make('rfid')
                     ->label('RFID')
+                    ->maxLength(255)
                     ->unique(ignoreRecord: true),
                 FileUpload::make('image')
                     ->image()
