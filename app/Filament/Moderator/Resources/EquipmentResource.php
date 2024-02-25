@@ -31,7 +31,6 @@ class EquipmentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    // TODO: Add Validation for doesn't start with white space
                     ->required()
                     ->maxLength(255)
                     ->doesntStartWith([' ']),
