@@ -30,9 +30,12 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->required(),
+                ->required()
+                ->maxLength(255)
+                ->doesntStartWith([' ']),
                 TextInput::make('email')
                 ->required()
+                ->maxLength(255)
                 ->email(),
                 Select::make('role_id')
                 ->label('Role')

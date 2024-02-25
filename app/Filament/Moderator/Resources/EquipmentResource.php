@@ -31,13 +31,19 @@ class EquipmentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->doesntStartWith([' ']),
                 TextInput::make('barcode')
                     ->label('Barcode')
                     ->required()
+                    ->maxLength(255)
+                    ->doesntStartWith([' '])
                     ->unique(ignoreRecord: true),
                 TextInput::make('rfid')
                     ->label('RFID')
+                    ->maxLength(255)
+                    ->doesntStartWith([' '])
                     ->unique(ignoreRecord: true),
                 FileUpload::make('image')
                     ->image()
