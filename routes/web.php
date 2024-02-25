@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\ListEquipments;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,24 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('admin/login', function () {
+    return redirect('moderator'); // This used to be for App Panel
+})->name('filament.admin.auth.login');
+
+// Route::get('moderator/login', function () {
+//     return redirect('app');
+// })->name('filament.moderator.auth.login');
+
+Route::get('', ListEquipments::class);
+
+Route::get('barcodeview/{barcode}', function ($slug){
+    return view('barcode',[
+        'barcode' => $slug
+    ]);
+})->name('barcode');
+
+// Call Artisan Storage link in the access
+Route::get('create-symlink', function (){
+    Artisan::call('storage:link');
+    return response('Done...');
+});

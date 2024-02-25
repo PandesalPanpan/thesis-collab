@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        /* For cleaning up the Activity Resource Logs
+        https://spatie.be/docs/laravel-activitylog/v4/basic-usage/cleaning-up-the-log */
+        $schedule->command('activitylog:clean --force')->daily();
     }
 
     /**
