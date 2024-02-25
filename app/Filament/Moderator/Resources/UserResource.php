@@ -57,7 +57,10 @@ class UserResource extends Resource
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->required(fn (string $operation): bool => $operation === 'create'),
+                Forms\Components\MarkdownEditor::make('description')
+                    ->placeholder("Include additional information\nSection: DCET 3-3\nPosition: Chairperson")
+                    ->columnSpan('full'),
             ]);
     }
 
