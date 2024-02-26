@@ -39,6 +39,8 @@ class UserResource extends Resource
                 ->maxLength(255)
                 ->email(),
                 Select::make('role_id')
+                // This must be before the options chain method to be overriden
+                ->relationship('role', 'name') 
                 ->label('Role')
                 ->options( function (){ // Admin has all options 
                     if (auth()->user()->isAdmin()){
@@ -52,7 +54,13 @@ class UserResource extends Resource
                     }
                 })
                 ->required()
-                ->helperText('Moderator & Admin should reset their password in login page'),
+                ->helperText('Moderator & Admin should reset their password in login page')
+                ->createOptionForm([
+                    TextInput::make('name')
+                        ->required()
+                        ->maxLength(255)
+                        ->label('Name of Role'),
+                ]),
                 // Password is disabled, but default to 'password', they just have to reset
                 // TextInput::make('password')
                 //     ->password()
