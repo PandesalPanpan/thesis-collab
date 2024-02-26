@@ -22,11 +22,19 @@ class DatabaseSeeder extends Seeder
             ]);
         $count += 1;
         }
-        $roles = ['Student', 'Professor', 'Visitor', 'Moderator', 'Admin'];
+        $roles = ['Student', 'Faculty', 'Visitor'];
         foreach ($roles as $role) {
         \App\Models\Role::factory()->create([
             'name' => $role,
         ]);
         }
+        \App\Models\Role::factory()->create([
+            'name' => 'Moderator',
+            'permission_level' => 2,
+        ]);
+        \App\Models\Role::factory()->create([
+            'name' => 'Admin',
+            'permission_level' => 3,
+        ]);
     }
 }
