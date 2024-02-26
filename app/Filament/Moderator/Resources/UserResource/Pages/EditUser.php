@@ -17,7 +17,8 @@ class EditUser extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        if (auth()->user()->role_id >= $record->role_id) // 4 >= 3
+        // Possibly shorten if I create a method within the model to check current permission
+        if (auth()->user()->role->permission_level >= $record->role->permission_level)
         {
             DB::transaction(function () use ($record, $data){
                 $record->update($data);
