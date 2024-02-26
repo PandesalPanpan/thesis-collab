@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -42,22 +43,24 @@ class UserResource extends Resource
                 ->options( function (){ // Admin has all options 
                     if (auth()->user()->isAdmin()){
                         $roles = Role::pluck('name','id')->all();
-                        //ddd($this->record());
-                        //(auth()->user());
+                        //ddd($roles);
                         return($roles);
                     }else{
-                        //ddd($this->record());
                         return Role::whereNotIn('name', ['Admin', 'Moderator'])
                                 ->pluck('name', 'id')
                                 ->all();
                     }
                 })
-                ->required(),
-                TextInput::make('password')
-                    ->password()
-                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                    ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->required(fn (string $operation): bool => $operation === 'create'),
+                ->required()
+                ->helperText('Moderator & Admin should reset their password in login page'),
+                // Password is disabled, but default to 'password', they just have to reset
+                // TextInput::make('password')
+                //     ->password()
+                //     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                //     ->dehydrated(fn (?string $state): bool => filled($state))
+                //     ->required(fn (string $operation): bool => $operation === 'create')
+                //     ->hidden(fn (Get $get) => $get('role_id') !== 4)
+                //     ->helperText('Unnecessary if User is not moderator/admin'),
                 Forms\Components\MarkdownEditor::make('description')
                     ->placeholder("Include additional information\nSection: DCET 3-3\nPosition: Chairperson")
                     ->columnSpan('full'),
