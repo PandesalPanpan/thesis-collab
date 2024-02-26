@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -85,10 +86,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role.name')
-                ->disabled(!auth()->user()->isAdmin()),
+                    ->disabled(!auth()->user()->isAdmin()),
             ])
             ->filters([
                 //
+                SelectFilter::make('role')
+                    ->relationship('role', 'name')
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
