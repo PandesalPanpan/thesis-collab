@@ -67,17 +67,19 @@ class User extends Authenticatable implements FilamentUser
 
     public function isAdmin(): bool
     {
-        return $this->role->name === 'Admin';
+        return $this->role->permission_level === 3;
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
         // Uncomment this to require roles to access panel
         if ($panel->getId() === 'admin'){
-            return str_contains($this->role_id, 5);
+            return str_contains($this->role->permission_level, 3);
+            //return str_contains($this->role_id, 5);
         }
         if ($panel->getId() === 'moderator'){
-            if (str_contains($this->role_id, 4) || str_contains($this->role_id, 5)){
+            if (str_contains ($this->role->permission_level, 2) || str_contains($this->role->permission_level, 3)){
+            //if (str_contains($this->role_id, 4) || str_contains($this->role_id, 5)){
                 return true;
             }return false;            
         }

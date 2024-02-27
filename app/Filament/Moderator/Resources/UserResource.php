@@ -46,10 +46,9 @@ class UserResource extends Resource
                 ->options( function (){ // Admin has all options 
                     if (auth()->user()->isAdmin()){
                         $roles = Role::pluck('name','id')->all();
-                        //ddd($roles);
                         return($roles);
                     }else{
-                        return Role::whereNotIn('name', ['Admin', 'Moderator'])
+                        return Role::whereNotIn('permission_level', [2,3])
                                 ->pluck('name', 'id')
                                 ->all();
                     }
@@ -60,7 +59,9 @@ class UserResource extends Resource
                     TextInput::make('name')
                         ->required()
                         ->maxLength(255)
-                        ->label('Name of Role'),
+                        ->label('Name of Role')
+                        ->helperText('Only Laboratory Head / Admin should create roles')
+                        ->disabled(!auth()->user()->isAdmin()),
                 ]),
                 // Password is disabled, but default to 'password', they just have to reset
                 // TextInput::make('password')

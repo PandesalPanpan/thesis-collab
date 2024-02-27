@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $testing_users = ['student','professor','visitor','moderator','admin'];
+        $testing_users = ['student','faculty','visitor','studentassistant', 'moderator','admin'];
         $count = 1;
         foreach ($testing_users as $user){
             \App\Models\User::factory()->create([
@@ -28,12 +28,15 @@ class DatabaseSeeder extends Seeder
             'name' => $role,
         ]);
         }
+        $moderators = ['Student Assistant', 'Moderator'];
+        foreach ($moderators as $moderator){
+            \App\Models\Role::factory()->create([
+                'name' => $moderator,
+                'permission_level' => 2,
+            ]);
+        }
         \App\Models\Role::factory()->create([
-            'name' => 'Moderator',
-            'permission_level' => 2,
-        ]);
-        \App\Models\Role::factory()->create([
-            'name' => 'Admin',
+            'name' => 'Laboratory Head',
             'permission_level' => 3,
         ]);
     }

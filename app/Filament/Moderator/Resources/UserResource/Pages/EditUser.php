@@ -4,6 +4,7 @@ namespace App\Filament\Moderator\Resources\UserResource\Pages;
 
 use App\Filament\Moderator\Resources\UserResource;
 use App\Models\Role;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
@@ -17,8 +18,7 @@ class EditUser extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        // Possibly shorten if I create a method within the model to check current permission
-        if (auth()->user()->role->permission_level >= $record->role->permission_level)
+        if (auth()->user()->role->permission_level > $this->getOriginalPermission($record) || auth()->user()->isAdmin())
         {
             DB::transaction(function () use ($record, $data){
                 $record->update($data);
@@ -26,7 +26,7 @@ class EditUser extends EditRecord
             });
         }else{
             Notification::make()
-                ->title('Save unsuccessful: Your role level is equal to or lower than the required level')
+                ->title('Save unsuccessful: Only Laboratory Head can make changes to moderators')
                 ->warning()
                 ->send();
             $this->halt();
@@ -43,5 +43,11 @@ class EditUser extends EditRecord
             ];
         
 
+    }
+
+    private function getOriginalPermission($currentRecord): int
+    {
+        $original = $currentRecord->getOriginal(); 
+        return $original_permission_level = User::find($original['id'])->role->permission_level;
     }
 }
