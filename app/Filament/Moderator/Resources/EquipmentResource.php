@@ -44,6 +44,7 @@ class EquipmentResource extends Resource
                     ->label('RFID')
                     ->maxLength(255)
                     ->doesntStartWith([' '])
+                    ->helperText("RFID starts with '0123'")
                     ->unique(ignoreRecord: true),
                 FileUpload::make('image')
                     ->image()
