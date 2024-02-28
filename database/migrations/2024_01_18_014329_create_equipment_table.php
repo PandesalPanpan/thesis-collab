@@ -23,6 +23,11 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->boolean('status')->default(0);
             $table->text('borrow_purpose')->nullable();
+            $table->dateTime('borrow_date_start')->nullable();
+            $table->dateTime('borrow_date_return_deadline')->nullable();
+            $table->dateTime('borrow_last_returned')->nullable();
+            $table->integer('borrowed_count')->nullable()->default(0);
+            $table->string('noted_instructor')->nullable();
             $table->timestamps();
         });
     }

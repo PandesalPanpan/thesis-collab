@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,5 +40,16 @@ class DatabaseSeeder extends Seeder
             'name' => 'Laboratory Head',
             'permission_level' => 3,
         ]);
+
+        // Equipments
+        $equipments = ['VOM', 'Pliers', "Key #103", "Key #104"];
+        foreach ($equipments as $equipment){
+            \App\Models\Equipment::factory()->create([
+                    'name' => $equipment,
+                    'barcode' => Str::random(15),
+                    'rfid' => Str::random(15),
+            ]);
+        }
+
     }
 }
