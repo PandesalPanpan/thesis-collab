@@ -14,21 +14,21 @@ use Spatie\Activitylog\LogOptions;
 class Equipment extends Model //implements HasMedia
 {
     use HasFactory;
-    use LogsActivity;
+    //use LogsActivity;
     //use InteractsWithMedia;
     protected $fillable = [
         'name',
         'user_id',
         'status',
     ];
-    public function getActivitylogOptions(): LogOptions
-    {
-        // TODO: Is it possible to check what field is updated before logging?
+    // public function getActivitylogOptions(): LogOptions
+    // {
+    //     // TODO: Is it possible to check what field is updated before logging?
         
-        return LogOptions::defaults()
-            ->logOnly(['name','user.name','barcode','rfid','borrow_purpose'])
-            ->useLogName('Inventory');
-    }
+    //     return LogOptions::defaults()
+    //         ->logOnly(['name','user.name','barcode','rfid','borrow_purpose'])
+    //         ->useLogName('Inventory');
+    // }
     // public function registerMediaConversions(Media $media = null): void
     // {
     //     $this->addMediaConversion('thumb')
