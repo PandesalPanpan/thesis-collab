@@ -19,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\AssociateAction;
 use Illuminate\Support\Facades\DB;
+use Milon\Barcode\DNS1D;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Facades\LogBatch;
 
@@ -43,9 +44,21 @@ class EquipmentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('borrow_date_start'),
-                Tables\Columns\TextColumn::make('borrow_date_return_deadline'),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('barcode')
+                    ->searchable()
+                    ->url(fn(Equipment $record): string => route('barcode', ['barcode' => $record->barcode]))
+                    ->openUrlInNewTab()
+                    ->formatStateUsing(function ($record){
+                        $barcode = DNS1D::getBarcodeHTML($record->barcode, 'C128');
+                        return $barcode;
+                    })->html()
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('borrow_date_start')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('borrow_date_return_deadline')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('noted_instructor')
                     ->placeholder('No Instructor'),
             ])
