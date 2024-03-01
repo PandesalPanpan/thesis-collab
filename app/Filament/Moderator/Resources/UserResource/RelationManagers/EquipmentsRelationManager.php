@@ -19,6 +19,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\AssociateAction;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Facades\LogBatch;
 
 class EquipmentsRelationManager extends RelationManager
 {
@@ -29,9 +31,6 @@ class EquipmentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                // Forms\Components\TextInput::make('name')
-                //     ->required()
-                //     ->maxLength(255),
                 Forms\Components\Select::make('name')
                     ->label('Equipment')
                     ->options([Equipment::whereNull('user_id')->pluck('name','barcode')
@@ -41,11 +40,14 @@ class EquipmentsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
-        //ddd(Equipment::query()->whereNull('user_id')->pluck('barcode','name')->toArray());
         return $table
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('borrow_date_start'),
+                Tables\Columns\TextColumn::make('borrow_date_return_deadline'),
+                Tables\Columns\TextColumn::make('noted_instructor')
+                    ->placeholder('No Instructor'),
             ])
             ->filters([
                 //
@@ -59,7 +61,6 @@ class EquipmentsRelationManager extends RelationManager
                             ->helperText('Scan Barcode or manually type')
                             ->searchable()
                             ->getSearchResultsUsing(fn (string $search): array => Equipment::query()
-                            //->getOptionLabelUsing(fn ($value): ?string => Equipment::find($value)?->name)
                             ->where('name', 'like', "%{$search}%")->whereNull('user_id')
                             ->orWhere('barcode', 'like', "%{$search}%")->whereNull('user_id')
                             ->limit(50)
@@ -83,20 +84,34 @@ class EquipmentsRelationManager extends RelationManager
                     ->action(function (array $data, Equipment $equipment): void{
                         DB::transaction(function () use ($data){
                             $user = $this->getOwnerRecord();
-                            // ddd($data);
-                            // ddd($data["name"]);
-                            // TODO: Add Dates
-                            //ddd($data);
+                            LogBatch::startBatch();
+                            
                             foreach ($data["name"] as $value){ //$data['name'] is primary id
+                                // TODO: get original values first in a variable look at chatgpt
                                 $equipment = Equipment::whereIn('id', [$value])->first();
+                                $equipment_original = $equipment->getOriginal();
                                 $equipment->user()->associate($user);
                                 $equipment->borrow_purpose = $data["borrow_purpose"];
                                 $equipment->borrow_date_start = now();
                                 $equipment->borrow_date_return_deadline = $data['borrow_date_return_deadline'];
                                 $equipment->noted_instructor = $data['noted_instructor'];
                                 $equipment->increment('borrowed_count');
-                                $equipment->save();
+                                $equipment->save();   
+                                // ddd($equipment->getChanges());
+                                activity()
+                                    ->causedBy(auth()->user()) // Assuming you have user authentication       
+                                    ->withProperties([
+                                        'attributes' => $equipment->getChanges(),
+                                        'old' => $equipment_original,
+
+                                    ])
+                                    ->event('borrow')
+                                    ->useLog('Borrow')
+                                    ->on($equipment)
+                                    ->log('borrow equipment');
+                                     // Log the changes made to the model
                             }
+                            LogBatch::endBatch();
                         });
                         
                     })
@@ -118,7 +133,11 @@ class EquipmentsRelationManager extends RelationManager
                     ->successNotificationTitle('Successfully Returned')
                     // i need to get the relationship first?
                     ->action(function (Equipment $record) {
+                        //ddd("Test");
+                        
                         DB::transaction(function () use ($record){
+                            LogBatch::startBatch();
+                            $record_original = $record->getOriginal();
                             $record->user()->dissociate();
                             $record->borrow_last_returned = now();
                             $record->borrow_purpose = null;
@@ -126,7 +145,19 @@ class EquipmentsRelationManager extends RelationManager
                             $record->borrow_date_return_deadline = null;
                             $record->noted_instructor = null;
                             $record->save(); 
+                            activity()
+                                    ->causedBy(auth()->user()) // Assuming you have user authentication       
+                                    ->withProperties([
+                                        'attributes' => $record,
+                                        'old' => $record_original,
+                                    ])
+                                    ->event('return')
+                                    ->useLog('Return')
+                                    ->on($record)
+                                    ->log('single return');
+                            LogBatch::endBatch();
                         });
+                        
                     }),
                 // Dito rin jocel ikakabit fingerprint
             ])
@@ -139,19 +170,46 @@ class EquipmentsRelationManager extends RelationManager
                         ->requiresConfirmation()
                         ->icon('heroicon-o-hand-raised')
                         ->action(function (Collection $records){
-                            $records->each(function (Equipment $record): void {
-                                DB::transaction(function () use ($record) {
+                            DB::transaction(function () use ($records){
+                                LogBatch::startBatch();
+                                $records->each(function (Equipment $record): void {
                                     $record->user()->dissociate();
+                                    $record_original = $record->getOriginal();
                                     $record->borrow_last_returned = now();
                                     $record->borrow_purpose = null;
                                     $record->borrow_date_start = null;
                                     $record->borrow_date_return_deadline = null;
                                     $record->noted_instructor = null;
-                                    $record->save(); 
+                                    $record->save();
+                                    activity()
+                                    ->causedBy(auth()->user()) // Assuming you have user authentication       
+                                    ->withProperties([
+                                        'attributes' => $record,
+                                        'old' => $record_original,
+                                    ])
+                                    ->event('batch return')
+                                    ->useLog('Returns')
+                                    ->on($record)
+                                    ->log('Batch return');
+                                });
+                                LogBatch::endBatch();
                             });
-                        });
-                            
                         })
+                                
+                        // ->action(function (Collection $records){
+                        //     $records->each(function (Equipment $record): void {
+                        //         DB::transaction(function () use ($record) {
+                        //             $record->user()->dissociate();
+                        //             $record->borrow_last_returned = now();
+                        //             $record->borrow_purpose = null;
+                        //             $record->borrow_date_start = null;
+                        //             $record->borrow_date_return_deadline = null;
+                        //             $record->noted_instructor = null;
+                        //             $record->save(); 
+                        //     });
+                        // });
+                            
+                        // })
                 //]),
             ]);
     }
