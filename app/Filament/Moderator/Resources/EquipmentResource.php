@@ -59,6 +59,9 @@ class EquipmentResource extends Resource
     return $table
             ->deferLoading()
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->label('ID'),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()

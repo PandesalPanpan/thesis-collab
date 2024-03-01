@@ -82,6 +82,9 @@ class UserResource extends Resource
         return $table
             ->deferLoading()
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->label('ID'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
