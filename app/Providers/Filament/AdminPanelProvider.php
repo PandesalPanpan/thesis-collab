@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Moderator\Resources\ModeratorResource\Widgets\LatestBorrows;
 use App\Http\Middleware\FilamentAuthenticate;
 use Filament\Facades\Filament;
 //use Filament\Http\Middleware\Authenticate;
@@ -46,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                LatestBorrows::class,
             ])
             ->middleware([
                 EncryptCookies::class,
