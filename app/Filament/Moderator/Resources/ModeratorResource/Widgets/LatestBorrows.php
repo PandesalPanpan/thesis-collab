@@ -16,6 +16,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class LatestBorrows extends BaseWidget
 {
+    protected static ?string $heading = 'Borrow Reports';
     protected int | string | array $columnSpan = 'full';
     public function table(Table $table): Table
     {

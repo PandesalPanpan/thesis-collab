@@ -15,6 +15,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class LatestReturns extends BaseWidget
 {
+    protected static ?string $heading = 'Returns Report';
     protected int | string | array $columnSpan = 'full';
     public function table(Table $table): Table
     {
