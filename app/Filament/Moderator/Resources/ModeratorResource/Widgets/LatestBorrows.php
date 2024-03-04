@@ -22,7 +22,6 @@ class LatestBorrows extends BaseWidget
     {
         return $table
             ->query(function (Activity $query){
-                $today = Carbon::today();
                 return $query
                     ->where('log_name', 'Borrow');
             })
@@ -44,7 +43,7 @@ class LatestBorrows extends BaseWidget
                         if (!$state){
                             return '-';
                         }
-                        $formatDate = new DateTime($state);
+                        $formatDate = Carbon::parse($state);
                         return $formatDate->format('F j, Y, h:i:s A');
                     }),
                 TextColumn::make('properties.attributes.borrow_date_return_deadline')
@@ -53,7 +52,7 @@ class LatestBorrows extends BaseWidget
                         if (!$state){
                             return '-';
                         }
-                        $formatDate = new DateTime($state);
+                        $formatDate = Carbon::parse($state);
                         return $formatDate->format('F j, Y, h:i:s A');
                     }),
             ])

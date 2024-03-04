@@ -44,7 +44,7 @@ class LatestReturns extends BaseWidget
                         if (!$state){
                             return '-';
                         }
-                        $formatDate = new DateTime($state);
+                        $formatDate = Carbon::parse($state);
                         return $formatDate->format('F j, Y, h:i:s A');
                     }),
             ])
