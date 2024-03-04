@@ -7,8 +7,10 @@ use Carbon\Carbon;
 use DateTime;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
 
 class LatestReturns extends BaseWidget
@@ -30,9 +32,6 @@ class LatestReturns extends BaseWidget
                         if (!$state){
                             return '-';
                         }
-                        //ddd($state);
-                        // The issue is, it still gets the properties despite
-                        // Find the user id instead
                         $stateRecord = User::find($state);
                         return $stateRecord->name;
                     }),
@@ -47,6 +46,18 @@ class LatestReturns extends BaseWidget
                         $formatDate = new DateTime($state);
                         return $formatDate->format('F j, Y, h:i:s A');
                     }),
-            ]);
+            ])
+            ->filters([
+                TernaryFilter::make('Date range')
+                    ->placeholder('Today')
+                    ->trueLabel('This week')
+                    ->falseLabel('All')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereDate('created_at', '>=', Carbon::now()->subWeek()),
+                        false: fn (Builder $query) => $query,
+                        blank: fn (Builder $query) => $query->whereDate('created_at', Carbon::today()),
+                    )
+            ])
+            ->defaultSort('updated_at', 'desc');;;
     }
 }
