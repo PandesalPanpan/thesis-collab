@@ -8,8 +8,6 @@ use Carbon\Carbon;
 use DateTime;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -26,19 +24,14 @@ class LatestBorrows extends BaseWidget
                 $today = Carbon::today();
                 return $query
                     ->where('log_name', 'Borrow');
-                //return $query->where('log_name', 'Borrow');
             })
             ->columns([
-                // I can formatStateUsing to change the subject_id to get the name instead
                 TextColumn::make('properties.attributes.user_id')
                     ->label("Borrower")
                     ->formatStateUsing(function ($state){
                         if (!$state){
                             return '-';
                         }
-                        //ddd($state);
-                        // The issue is, it still gets the properties despite
-                        // Find the user id instead
                         $stateRecord = User::find($state);
                         return $stateRecord->name;
                     }),
@@ -74,7 +67,6 @@ class LatestBorrows extends BaseWidget
                         blank: fn (Builder $query) => $query->whereDate('created_at', Carbon::today()),
                     )
             ])
-            // Adjust this to by updated at or created at?
             ->defaultSort('updated_at', 'desc');;
     }
 }
