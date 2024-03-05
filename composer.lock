@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e71a50d21c54b269ebe6a73bbbc9bc61",
+    "content-hash": "e134c5b8834db5e1bc419ef6939da2d7",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2140,6 +2140,59 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "kenepa/multi-widget",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kenepa/multi-widget.git",
+                "reference": "813cc3cadcfd65979ff66fc58a38358b32f34b6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kenepa/multi-widget/zipball/813cc3cadcfd65979ff66fc58a38358b32f34b6f",
+                "reference": "813cc3cadcfd65979ff66fc58a38358b32f34b6f",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "tightenco/duster": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kenepa\\MultiWidget\\MultiWidgetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kenepa\\MultiWidget\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Filament widget that encompasses multiple widgets.",
+            "homepage": "https://github.com/kenepa/multi-widget",
+            "keywords": [
+                "Kenepa",
+                "filament",
+                "laravel",
+                "multi-widget"
+            ],
+            "support": {
+                "issues": "https://github.com/kenepa/multi-widget/issues",
+                "source": "https://github.com/kenepa/multi-widget/tree/2.0.2"
+            },
+            "time": "2023-09-27T11:48:08+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
