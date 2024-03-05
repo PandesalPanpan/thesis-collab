@@ -10,19 +10,15 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
+
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
     protected static ?string $navigationLabel = 'Users & Borrow';
     protected static ?int $navigationSort = 1; 
@@ -99,7 +95,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->label('Assign & Edit'),
+                    ->label('Borrow & Edit'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
