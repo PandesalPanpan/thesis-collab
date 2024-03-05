@@ -100,12 +100,12 @@ class EquipmentsRelationManager extends RelationManager
                             LogBatch::startBatch();
                             
                             foreach ($data["name"] as $value){ //$data['name'] is primary id
-                                // TODO: get original values first in a variable look at chatgpt
                                 $equipment = Equipment::whereIn('id', [$value])->first();
                                 $equipment_original = $equipment->getOriginal();
                                 $equipment->user()->associate($user);
                                 $equipment->borrow_purpose = $data["borrow_purpose"];
-                                $equipment->borrow_date_start = now();
+                                //$date = Carbon::now();
+                                $equipment->borrow_date_start = now()->format('Y-m-d H:i:s');
                                 $equipment->borrow_date_return_deadline = $data['borrow_date_return_deadline'];
                                 $equipment->noted_instructor = $data['noted_instructor'];
                                 $equipment->increment('borrowed_count');
@@ -150,24 +150,9 @@ class EquipmentsRelationManager extends RelationManager
                         
                         DB::transaction(function () use ($record){
                             LogBatch::startBatch();
-                            $record_original = $record->getOriginal();
-                            $record->user()->dissociate();
-                            $record->borrow_last_returned = now();
-                            $record->borrow_purpose = null;
-                            $record->borrow_date_start = null;
-                            $record->borrow_date_return_deadline = null;
-                            $record->noted_instructor = null;
-                            $record->save(); 
-                            activity()
-                                    ->causedBy(auth()->user()) // Assuming you have user authentication       
-                                    ->withProperties([
-                                        'attributes' => $record,
-                                        'old' => $record_original,
-                                    ])
-                                    ->event('return')
-                                    ->useLog('Return')
-                                    ->on($record)
-                                    ->log('single return');
+                            LogBatch::setBatch($this->getBatchUuid($record));
+                            
+                            $this->dissociateAndLog($record);
                             LogBatch::endBatch();
                         });
                         
@@ -184,26 +169,16 @@ class EquipmentsRelationManager extends RelationManager
                         ->icon('heroicon-o-hand-raised')
                         ->action(function (Collection $records){
                             DB::transaction(function () use ($records){
+                                //ddd($records); // Items with array of 1 => model/record, 2 => model/record
+                                // Create a method for getting the uuid of the first record
+                                
+                                
+                                
                                 LogBatch::startBatch();
+                                LogBatch::setBatch($this->getBatchUuid($records[0]));
+                                
                                 $records->each(function (Equipment $record): void {
-                                    $record->user()->dissociate();
-                                    $record_original = $record->getOriginal();
-                                    $record->borrow_last_returned = now();
-                                    $record->borrow_purpose = null;
-                                    $record->borrow_date_start = null;
-                                    $record->borrow_date_return_deadline = null;
-                                    $record->noted_instructor = null;
-                                    $record->save();
-                                    activity()
-                                    ->causedBy(auth()->user()) // Assuming you have user authentication       
-                                    ->withProperties([
-                                        'attributes' => $record,
-                                        'old' => $record_original,
-                                    ])
-                                    ->event('batch return')
-                                    ->useLog('Returns')
-                                    ->on($record)
-                                    ->log('Batch return');
+                                    $this->dissociateAndLog($record);
                                 });
                                 LogBatch::endBatch();
                             });
@@ -225,5 +200,35 @@ class EquipmentsRelationManager extends RelationManager
                         // })
                 //]),
             ]);
+    }
+
+    private function dissociateAndLog(Equipment $record): void
+    {
+        $record_original = $record->getOriginal();
+        $record->user()->dissociate();
+        $record->borrow_last_returned = now();
+        $record->borrow_purpose = null;
+        $record->borrow_date_start = null;
+        $record->borrow_date_return_deadline = null;
+        $record->noted_instructor = null;
+        $record->save();
+        activity()
+            ->causedBy(auth()->user()) // Assuming you have user authentication       
+                ->withProperties([
+                    'attributes' => $record,
+                    'old' => $record_original,
+                ])
+                ->event('return')
+                ->useLog('Returns')
+                ->on($record)
+                ->log('return');
+    }
+
+    private function getBatchUuid(Equipment $record)
+    {
+        return Activity::where('subject_id', $record->id)
+            ->where('event','borrow')
+            ->latest()
+            ->value('batch_uuid');
     }
 }
