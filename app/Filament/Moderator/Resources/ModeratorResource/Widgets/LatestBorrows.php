@@ -59,7 +59,7 @@ class LatestBorrows extends BaseWidget
             ->filters([
                 TernaryFilter::make('Date range')
                     ->placeholder('Today')
-                    ->trueLabel('This week')
+                    ->trueLabel('Week')
                     ->falseLabel('All')
                     ->queries(
                         true: fn (Builder $query) => $query->whereDate('created_at', '>=', Carbon::now()->subWeek()),
