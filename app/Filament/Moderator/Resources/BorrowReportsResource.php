@@ -48,7 +48,7 @@ class BorrowReportsResource extends Resource
                 TextColumn::make('event')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'borrow' => 'primary',
+                        'borrow' => 'info',
                         'return' => 'success',
                     }),
                 TextColumn::make('properties.attributes.user_id')
@@ -100,7 +100,15 @@ class BorrowReportsResource extends Resource
                 TextColumn::make('causer.name')
                     ->label('Handled By'),
                 TextColumn::make('batch_uuid')
-                    ->searchable(),
+                    ->label('Batch UUID (Searchable)')
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Copied')
+                    ->copyMessageDuration(1500),
+                TextColumn::make('created_at')
+                    ->label('Report Created At (Searchable)')
+                    ->sortable()
+                    ->searchable()
             ])
             ->filters([
 
@@ -113,7 +121,7 @@ class BorrowReportsResource extends Resource
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
             ])
-            ->defaultSort('updated_at', 'desc');;
+            ->defaultSort('created_at', 'desc');;
     }
 
     public static function getRelations(): array
