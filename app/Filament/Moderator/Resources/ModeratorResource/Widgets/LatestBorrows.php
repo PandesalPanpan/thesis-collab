@@ -67,6 +67,6 @@ class LatestBorrows extends BaseWidget
                         blank: fn (Builder $query) => $query->whereDate('created_at', Carbon::today()),
                     )
             ])
-            ->defaultSort('updated_at', 'desc');;
+            ->defaultSort('updated_at', 'desc');
     }
 }
