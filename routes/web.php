@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\ListEquipments;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +26,8 @@ Route::get('admin/login', function () {
 //     return redirect('app');
 // })->name('filament.moderator.auth.login');
 
-Route::get('', ListEquipments::class);
+Route::get('', ListEquipments::class)
+    ->name('public');
 
 Route::get('barcodeview/{barcode}', function ($slug){
     return view('barcode',[
@@ -38,3 +40,13 @@ Route::get('create-symlink', function (){
     Artisan::call('storage:link');
     return response('Done...');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('moderator');
+})->middleware(['auth', 'signed'])->name('verification.verify');

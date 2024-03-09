@@ -36,6 +36,7 @@ class ModeratorPanelProvider extends PanelProvider
             ->path('moderator')
             //->registration() //For Testing Purposes until Final
             ->login()
+            ->emailVerification()
             ->passwordReset()
             ->brandName('ITECH Inventory')
             ->colors([
