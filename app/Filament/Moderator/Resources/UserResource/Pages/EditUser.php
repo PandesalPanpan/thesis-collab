@@ -8,9 +8,10 @@ use App\Models\User;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\URL;
 
 class EditUser extends EditRecord
 {
@@ -33,6 +34,28 @@ class EditUser extends EditRecord
         }
         return $record;
  //Return record without updating
+    }
+    // TODO: Resend Email verification if the record change role higher
+    // Ignore if record already has verification
+    protected function afterSave(): void
+    {
+        $user = $this->record;
+        if ($user->role->permission_level > 1 && !$user->email_verified_at){
+            $notification = new VerifyEmail();
+            $notification->url = URL::temporarySignedRoute(
+                'verification.verify',
+                now()->addMinutes(config('auth.verification.expire', 60)),
+                [
+                    'id' => $user->getKey(),
+                    'hash' => sha1($user->getEmailForVerification()),
+                ],
+            );
+            $user->notify($notification);
+            Notification::make()
+                ->title('Email Verification is sent!')
+                ->info()
+                ->send();
+        }
     }
     protected function getHeaderActions(): array
     {

@@ -4,6 +4,7 @@ namespace App\Filament\Moderator\Resources\UserResource\Pages;
 
 use App\Filament\Moderator\Resources\UserResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\URL;
@@ -26,6 +27,10 @@ class CreateUser extends CreateRecord
                 ],
             );
             $user->notify($notification);
+            Notification::make()
+                ->title('Email Verification is sent!')
+                ->info()
+                ->send();
         }
     }
 }
