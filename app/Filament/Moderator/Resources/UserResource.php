@@ -50,7 +50,7 @@ class UserResource extends Resource
                     }
                 })
                 ->required()
-                ->helperText('Moderator & Admin should reset their password in login page')
+                ->helperText("Moderator & Admin should reset their password in login page\nDefault Password: password")
                 ->createOptionForm([
                     TextInput::make('name')
                         ->required()
