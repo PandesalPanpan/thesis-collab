@@ -44,6 +44,7 @@ class EquipmentResource extends Resource
                     ->label('RFID')
                     ->maxLength(255)
                     ->doesntStartWith([' '])
+                    ->helperText("RFID starts with '0123'")
                     ->unique(ignoreRecord: true),
                 FileUpload::make('image')
                     ->image()
@@ -58,6 +59,9 @@ class EquipmentResource extends Resource
     return $table
             ->deferLoading()
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable()
+                    ->label('ID'),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()

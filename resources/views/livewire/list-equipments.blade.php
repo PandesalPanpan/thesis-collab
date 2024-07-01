@@ -6,7 +6,7 @@
             <div class="relative flex justify-center items-center mt-8 gap-x-3">
                 <img class="object-cover object-center rounded-full h-32 w-32 md:h-48 md:w-48" src="images.png" alt="image"/>
             </div>
-            
+
             <!-- Text -->
             <div>
                 <h1 class="text-3xl md:text-3xl font-semibold mb-4">Laboratory Equipment</h1>
@@ -29,3 +29,5 @@
     </div>
 </div>
 
+<!-- Including JavaScript files -->
+{{--  --}}

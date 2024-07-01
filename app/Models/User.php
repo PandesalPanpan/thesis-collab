@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     use LogsActivity;
@@ -67,17 +68,19 @@ class User extends Authenticatable implements FilamentUser
 
     public function isAdmin(): bool
     {
-        return $this->role->name === 'Admin';
+        return $this->role->permission_level === 3;
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
         // Uncomment this to require roles to access panel
         if ($panel->getId() === 'admin'){
-            return str_contains($this->role_id, 5);
+            return str_contains($this->role->permission_level, 3);
+            //return str_contains($this->role_id, 5);
         }
         if ($panel->getId() === 'moderator'){
-            if (str_contains($this->role_id, 4) || str_contains($this->role_id, 5)){
+            if (str_contains ($this->role->permission_level, 2) || str_contains($this->role->permission_level, 3)){
+            //if (str_contains($this->role_id, 4) || str_contains($this->role_id, 5)){
                 return true;
             }return false;            
         }

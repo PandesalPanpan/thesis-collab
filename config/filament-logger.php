@@ -47,6 +47,18 @@ return [
         [
             'log_name' => 'User',
             'color' => 'success',
-        ]
+        ],
+        [
+            'log_name' => 'Borrow',
+            'color' => 'primary',
+        ],
+        [
+            'log_name' => 'Return',
+            'color' => 'success',
+        ],
+        [
+            'log_name' => 'Returns',
+            'color' => 'success',
+        ],
     ],
 ];

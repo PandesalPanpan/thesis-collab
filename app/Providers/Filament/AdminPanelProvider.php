@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Moderator\Pages\Dashboard;
+use App\Filament\Moderator\Resources\ModeratorResource\Widgets\LatestBorrows;
+use App\Filament\Moderator\Widgets\LatestReturns;
+use App\Filament\Moderator\Widgets\MostBorrowed;
 use App\Http\Middleware\FilamentAuthenticate;
 use Filament\Facades\Filament;
 //use Filament\Http\Middleware\Authenticate;
@@ -19,6 +23,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Moderator\Widgets\UserMultiWidget;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -33,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             //->registration() //For testing purposes until final
             ->login()
+            ->emailVerification()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -41,11 +47,16 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Moderator/Resources'), for: 'App\\Filament\\Moderator\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
+                Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                // Widgets\AccountWidget::class,
+                // UserMultiWidget::class,
+                // LatestBorrows::class,
+                // LatestReturns::class,
+                // MostBorrowed::class,
             ])
             ->middleware([
                 EncryptCookies::class,
