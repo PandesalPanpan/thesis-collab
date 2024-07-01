@@ -16,7 +16,7 @@ class RedirectToPanel
      */
     public function handle(Request $request, Closure $next): Response
     {    
-        if (Auth::user() && Auth::user()->role->name === "Admin"){
+        if (Auth::user() && Auth::user()->role->permission_level === 3){
             return redirect("/admin");
         }
         /* If even I need to use the App Panel again so user could possibly like have to log in

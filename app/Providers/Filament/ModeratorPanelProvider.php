@@ -3,6 +3,11 @@
 namespace App\Providers\Filament;
 
 //use Filament\Http\Middleware\Authenticate;
+
+use App\Filament\Moderator\Pages\Dashboard;
+use App\Filament\Moderator\Resources\ModeratorResource\Widgets\LatestBorrows;
+use App\Filament\Moderator\Widgets\LatestReturns;
+use App\Filament\Moderator\Widgets\MostBorrowed;
 use App\Http\Middleware\FilamentAuthenticate;
 use App\Http\Middleware\RedirectToPanel;
 use Filament\Facades\Filament;
@@ -31,6 +36,8 @@ class ModeratorPanelProvider extends PanelProvider
             ->path('moderator')
             //->registration() //For Testing Purposes until Final
             ->login()
+            ->emailVerification()
+            ->passwordReset()
             ->brandName('ITECH Inventory')
             ->colors([
                 'primary' => Color::Green,
@@ -38,11 +45,15 @@ class ModeratorPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Moderator/Resources'), for: 'App\\Filament\\Moderator\\Resources')
             ->discoverPages(in: app_path('Filament/Moderator/Pages'), for: 'App\\Filament\\Moderator\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                //Pages\Dashboard::class,
+                Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Moderator/Widgets'), for: 'App\\Filament\\Moderator\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                // Widgets\AccountWidget::class,
+                // LatestBorrows::class,
+                // LatestReturns::class,
+                // MostBorrowed::class,
             ])
             ->middleware([
                 EncryptCookies::class,

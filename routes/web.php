@@ -1,7 +1,12 @@
 <?php
 
 use App\Livewire\ListEquipments;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\FingerPrintController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +30,8 @@ Route::get('admin/login', function () {
 //     return redirect('app');
 // })->name('filament.moderator.auth.login');
 
-Route::get('', ListEquipments::class);
+Route::get('', ListEquipments::class)
+    ->name('public');
 
 Route::get('barcodeview/{barcode}', function ($slug){
     return view('barcode',[
@@ -38,3 +44,24 @@ Route::get('create-symlink', function (){
     Artisan::call('storage:link');
     return response('Done...');
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('moderator');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::get('fingerprint', [FingerPrintController::class, 'index']);
+Route::view('socket','websocket' );
+
+Route::get('fingerprints', [FingerPrintController::class, 'view'])->name('fingerprint.enroll');
+Route::post('fingerprints', [FingerPrintController::class, 'enroll'])->name('fingerprint.enroll');
+
+
+
+
